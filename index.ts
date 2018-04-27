@@ -134,16 +134,16 @@ class State {
 						const userDataRef = firebase.database().ref(`User/${uid}`);
 						userDataRef.once("value", async value => {
 							let data = value.val();
-							if (data.bedRequestedShelter >= 0) {
-								alert("You already have beds selected at another shelter");
-								return;
-							}
-							let num = parseInt((document.getElementById("shelter-detail-beds") as HTMLInputElement).value, 10);
-							if (shelter.capacity < usedCapacity + num || num === 0) {
-								alert("That many beds are not available");
-								return;
-							}
 							try {
+								if (data.bedRequestedShelter >= 0) {
+									alert("You already have beds selected at another shelter");
+									return;
+								}
+								let num = parseInt((document.getElementById("shelter-detail-beds") as HTMLInputElement).value, 10);
+								if (shelter.capacity < usedCapacity + num || num === 0) {
+									alert("That many beds are not available");
+									return;
+								}
 								await Promise.all([
 									firebase.database().ref(`Shelter/${shelter.uniqueKey}/visitors/${uid}`).set(num),
 									firebase.database().ref(`User/${uid}/bedRequestedShelter`).set(shelter.uniqueKey)
