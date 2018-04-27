@@ -70,8 +70,59 @@
 		<section id="home">
 			<h1>Welcome, <span id="fill-name"></span>!</h1>
 			<button id="shelter-list-link">View shelters</button>
+			<button id="shelter-search-link">Search shelters</button>
+			<br />
 			<br />
 			<button id="logout">Log out</button>
+		</section>
+
+		<section id="shelter-search">
+			<label for="filter-name">Name:</label>
+			<input type="text" id="filter-name" required />
+			<br />
+			<br />
+			<label for="filter-gender">Gender:</label>
+			<select id="filter-gender">
+				<option>Male</option>
+				<option>Female</option>
+				<option>Other</option>
+				<option>All</option>
+				<option selected>Any</option>
+			</select>
+			<br />
+			<br />
+			<label for="filter-children">Children</label>
+			<input id="filter-children" type="checkbox" />
+			<br />
+			<label for="filter-families">Families</label>
+			<input id="filter-families" type="checkbox" />
+			<br />
+			<label for="filter-families-young">Families with young children</label>
+			<input id="filter-families-young" type="checkbox" />
+			<br />
+			<label for="filter-families-newborns">Families with newborns</label>
+			<input id="filter-families-newborns" type="checkbox" />
+			<br />
+			<label for="filter-young-adults">Young adults</label>
+			<input id="filter-young-adults" type="checkbox" />
+			<br />
+			<label for="filter-adults">Adults</label>
+			<input id="filter-adults" type="checkbox" />
+			<br />
+			<label for="filter-seniors">Seniors</label>
+			<input id="filter-seniors" type="checkbox" />
+			<br />
+			<label for="filter-veterans">Veterans</label>
+			<input id="filter-veterans" type="checkbox" />
+			<br />
+			<label for="filter-none">None</label>
+			<input id="filter-none" type="checkbox" />
+			<br />
+			<br />
+			<button id="search">Search!</button>
+			<br />
+			<br />
+			<button class="back-link">Back</button>
 		</section>
 
 		<section id="shelter-list">

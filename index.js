@@ -52,6 +52,36 @@ function getRestrictions(r, gender) {
     }
     return restrictions.join(", ");
 }
+let filter = {
+    name: null,
+    gender: "Any",
+    restrictions: []
+};
+function passesFilter(shelter) {
+    if (filter.name && filter.name.trim() && shelter.shelterName.toLowerCase().indexOf(filter.name.toLowerCase()) === -1) {
+        return false;
+    }
+    if (shelter.gender !== "UNRESTRICTED") {
+        if (filter.gender === "Male" && shelter.gender !== "MEN") {
+            return false;
+        }
+        if (filter.gender === "Female" && shelter.gender !== "WOMEN") {
+            return false;
+        }
+        if (filter.gender === "Other" && shelter.gender !== "OTHER") {
+            return false;
+        }
+        if (filter.gender === "All") {
+            return false;
+        }
+    }
+    for (let restriction of filter.restrictions) {
+        if (shelter.restrictions.indexOf(restriction) === -1) {
+            return false;
+        }
+    }
+    return true;
+}
 class State {
     constructor() {
         this.sections = {
@@ -60,13 +90,56 @@ class State {
             "home": document.getElementById("home"),
             "shelter-list": document.getElementById("shelter-list"),
             "shelter-detail": document.getElementById("shelter-detail"),
+            "shelter-search": document.getElementById("shelter-search"),
         };
         this.handlers = {
+            "shelter-search": () => {
+                const searchButtonOld = document.getElementById("search");
+                // Delete previous event handlers by replacing it
+                const searchButton = searchButtonOld.cloneNode(true);
+                searchButtonOld.parentElement.replaceChild(searchButton, searchButtonOld);
+                searchButton.disabled = false;
+                searchButton.addEventListener("click", () => {
+                    searchButton.disabled = true;
+                    filter.name = document.getElementById("filter-name").value;
+                    filter.gender = document.getElementById("filter-gender").value; // fuck it
+                    if (document.getElementById("filter-children").checked) {
+                        filter.restrictions.push("CHILDREN");
+                    }
+                    if (document.getElementById("filter-families").checked) {
+                        filter.restrictions.push("FAMILIES");
+                    }
+                    if (document.getElementById("filter-families-young").checked) {
+                        filter.restrictions.push("FAMILIES_YOUNG_CHILDREN");
+                    }
+                    if (document.getElementById("filter-families-newborns").checked) {
+                        filter.restrictions.push("FAMILIES_NEWBORNS");
+                    }
+                    if (document.getElementById("filter-young-adults").checked) {
+                        filter.restrictions.push("YOUNG_ADULTS");
+                    }
+                    if (document.getElementById("filter-adults").checked) {
+                        filter.restrictions.push("ADULTS");
+                    }
+                    if (document.getElementById("filter-seniors").checked) {
+                        filter.restrictions.push("SENIORS");
+                    }
+                    if (document.getElementById("filter-veterans").checked) {
+                        filter.restrictions.push("VETERANS");
+                    }
+                    if (document.getElementById("filter-none").checked) {
+                        filter.restrictions.push("NONE");
+                    }
+                    this.switchTo("shelter-list");
+                });
+            },
             "shelter-list": () => {
                 let list = document.getElementById("shelter-list-actual");
                 firebase.database().ref("Shelter").once("value", shelters => {
                     list.innerHTML = "";
                     shelters.forEach(shelter => {
+                        if (!passesFilter(shelter.val()))
+                            return;
                         let restrictions = getRestrictions(shelter.val().restrictions, shelter.val().gender);
                         list.innerHTML += `
 						<tr>
@@ -116,7 +189,7 @@ class State {
                     document.getElementById("shelter-detail-notes").textContent = shelter.specialNotes;
                     document.getElementById("shelter-detail-address").textContent = shelter.address;
                     let canReserve = true;
-                    if (Object.keys(shelter.visitors).indexOf(uid) !== -1 && shelter.visitors[uid] > 0) {
+                    if (shelter.visitors && Object.keys(shelter.visitors).indexOf(uid) !== -1 && shelter.visitors[uid] > 0) {
                         canReserve = false;
                         document.getElementById("shelter-detail-beds").style.display = "none";
                     }
@@ -301,7 +374,15 @@ firebase.auth().onAuthStateChanged(user => {
 });
 document.getElementById("register-link").addEventListener("click", () => state.switchTo("register"));
 document.getElementById("login-link").addEventListener("click", () => state.switchTo("login"));
-document.getElementById("shelter-list-link").addEventListener("click", () => state.switchTo("shelter-list"));
+document.getElementById("shelter-list-link").addEventListener("click", () => {
+    filter = {
+        name: null,
+        gender: "Any",
+        restrictions: []
+    };
+    state.switchTo("shelter-list");
+});
+document.getElementById("shelter-search-link").addEventListener("click", () => state.switchTo("shelter-search"));
 let backButtons = document.getElementsByClassName("back-link");
 for (let i = 0; i < backButtons.length; i++) {
     backButtons[i].addEventListener("click", () => state.switchTo("home"));
