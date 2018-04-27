@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Gimme Shelter</title>
+
+		<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-firestore.js"></script>
+
+		<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+
+
+		<script>
+			// Initialize Firebase
+			let config = {
+				apiKey: "AIzaSyD1_UguGW-YErvhMMmS_0b1E55OJr3dDMA",
+				authDomain: "gimme-shelter-1ecb0.firebaseapp.com",
+				databaseURL: "https://gimme-shelter-1ecb0.firebaseio.com",
+				projectId: "gimme-shelter-1ecb0",
+				storageBucket: "gimme-shelter-1ecb0.appspot.com",
+				messagingSenderId: "17426175932"
+			};
+			firebase.initializeApp(config);
+		</script>
+	</head>
+	<body>
+		<section id="login">
+			<input id="email" type="email" placeholder="Email" required />
+			<br />
+			<input id="password" type="password" placeholder="Password" required />
+			<br />
+			<button id="login-submit">Log in</button>
+			<br />
+			<br />
+			<button id="register-link">Go to register</button>
+		</section>
+		
+		<section id="register">
+			<input id="first-name" type="text" placeholder="First Name" required />
+			<br />
+			<input id="last-name" type="text" placeholder="Last Name" required />
+			<br />
+			<input id="new-email" type="email" placeholder="Email" required />
+			<br />
+			<input id="new-password" type="password" placeholder="Password" required />
+			<br />
+			<label for="gender">Gender:</label>
+			<select id="gender">
+				<option value="MALE">Male</option>
+				<option value="FEMALE">Female</option>
+				<option value="OTHER">Other</option>
+			</select>
+			<br />
+			<input id="birthday" type="date" required />
+			<br />
+			<label for="admin">Admin:</label>
+			<input id="admin" type="checkbox" required />
+			<br />
+			<button id="register-submit">Register</button>
+			<br />
+			<br />
+			<button id="login-link">Go to login</button>
+		</section>
+
+		<section id="main">
+			<h1>Hello world</h1>
+			<button id="logout">Log out</button>
+		</section>
+		<script src="index.js"></script>
+	</body>
+</html>
