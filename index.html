@@ -15,7 +15,6 @@
 		<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
 		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 
-
 		<script>
 			// Initialize Firebase
 			let config = {
@@ -68,10 +67,34 @@
 			<button id="login-link">Go to login</button>
 		</section>
 
-		<section id="main">
-			<h1>Hello world</h1>
+		<section id="home">
+			<h1>Welcome, <span id="fill-name"></span>!</h1>
+			<button id="shelter-list-link">View shelters</button>
+			<br />
 			<button id="logout">Log out</button>
 		</section>
+
+		<section id="shelter-list">
+			<table id="shelter-list-actual"></table>
+			<button class="back-link">Back</button>
+		</section>
+
+		<section id="shelter-detail">
+			<h2><strong id="shelter-detail-name"></strong></h2>
+			<p>Capacity: <span id="shelter-detail-capacity"></span></p>
+			<p>Phone: <span id="shelter-detail-phone"></span></p>
+			<p>Restrictions: <span id="shelter-detail-restrictions"></span></p>
+			<p>Notes: <span id="shelter-detail-notes"></span></p>
+			<p>Address: <span id="shelter-detail-address"></span></p>
+			
+			<input id="shelter-detail-beds" type="number" min="0" max="1" value="1" />
+			<br />
+			<button id="shelter-detail-reserve">Reserve beds</button>
+			<br />
+			<br />
+			<button id="shelter-detail-back">Back</button>
+		</section>
+
 		<script src="index.js"></script>
 	</body>
 </html>
